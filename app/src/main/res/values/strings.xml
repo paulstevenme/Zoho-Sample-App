@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Countries</string>
+    <string name="app_base_line">Know the Details of Country</string>
+    <string name="navigation_open">Open Navigation Drawer</string>
+    <string name="navigation_close">Close Navigation Drawer</string>
+    <string name="api_base_url">https://restcountries.eu/rest/v2</string>
+</resources>
