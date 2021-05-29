@@ -23,13 +23,13 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.Toolbar
-
                 android:id="@+id/home_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:navigationIcon="@drawable/ic_baseline_menu_24"
                 app:title="Countries"
                 app:titleTextColor="@color/white"
+                app:menu="@menu/app_bar_menu"
 
                 />
 

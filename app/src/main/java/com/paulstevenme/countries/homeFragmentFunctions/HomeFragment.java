@@ -60,6 +60,11 @@ public class HomeFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_home, container, false);
         placeHolder = (ViewGroup) view;
 
+        home_details_loading_layout = view.findViewById(R.id.home_details_loading_layout);
+        network_error_layout = view.findViewById(R.id.network_error);
+        home_data_items = view.findViewById(R.id.home_data_items);
+        network_error_text = view.findViewById(R.id.network_error_text);
+
         countryOfflineStoreSP = this.getActivity().getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE);
         countryOfflineStoreSPEditor = countryOfflineStoreSP.edit();
         getHomeFragmentItems(inflater, container);
@@ -68,13 +73,6 @@ public class HomeFragment extends Fragment {
     }
 
     private void getHomeFragmentItems(LayoutInflater inflater, ViewGroup container) {
-        view = inflater.inflate(R.layout.fragment_home, container, false);
-        placeHolder.addView(view);
-
-        home_details_loading_layout = view.findViewById(R.id.home_details_loading_layout);
-        network_error_layout = view.findViewById(R.id.network_error);
-        home_data_items = view.findViewById(R.id.home_data_items);
-        network_error_text = view.findViewById(R.id.network_error_text);
 
         Boolean network_check = haveNetworkConnection(view);
         network_error_layout = view.findViewById(R.id.network_error);
@@ -84,7 +82,7 @@ public class HomeFragment extends Fragment {
         if(network_check){
             boolean DBFlag= countryOfflineStoreSP.getBoolean("DBFlag", false);
             Log.e("DBFlag", String.valueOf(DBFlag));
-//            getDataFromURL();
+
             if(DBFlag){
                 getAllCountryNamesAndFlags();
             }

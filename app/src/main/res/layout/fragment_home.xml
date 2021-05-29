@@ -6,6 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_color"
 
     >
 
@@ -93,7 +94,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Search...">
+                android:hint="Search Country Here...">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/search"
