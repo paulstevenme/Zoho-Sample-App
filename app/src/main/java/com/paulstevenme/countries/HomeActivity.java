@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentManager;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -33,11 +34,18 @@ public class HomeActivity extends AppCompatActivity {
     DrawerLayout sideDrawerLayout;
     NavigationView navigationView;
     Toolbar home_toolbar;
+    public static final String MY_PREFS_NAME = "CountryOfflineStore";
+
+    Boolean DBFlag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        SharedPreferences countryOfflineStoreSP = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        DBFlag = countryOfflineStoreSP.getBoolean("DBFlag",false);
+
 
         sideDrawerLayout  = findViewById(R.id.sideDrawerLayout);
         home_toolbar = findViewById(R.id.home_toolbar);

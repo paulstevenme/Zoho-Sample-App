@@ -71,7 +71,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
 
                     @Override
                     public void onResourceReady() {
-                        Toast.makeText(mCtx.getApplicationContext(), "Image ready", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(mCtx.getApplicationContext(), "Image ready", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setPlaceHolder(R.mipmap.ic_launcher, R.mipmap.ic_launcher)

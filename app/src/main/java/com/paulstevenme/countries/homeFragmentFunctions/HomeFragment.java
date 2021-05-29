@@ -2,6 +2,7 @@ package com.paulstevenme.countries.homeFragmentFunctions;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -46,6 +47,10 @@ public class HomeFragment extends Fragment {
     TextView  network_error_text;
     Button btnRetry;
     RecyclerView rv_country_list;
+    public static final String MY_PREFS_NAME = "CountryOfflineStore";
+    SharedPreferences countryOfflineStoreSP;
+    SharedPreferences.Editor countryOfflineStoreSPEditor;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -55,7 +60,8 @@ public class HomeFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_home, container, false);
         placeHolder = (ViewGroup) view;
 
-
+        countryOfflineStoreSP = this.getActivity().getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE);
+        countryOfflineStoreSPEditor = countryOfflineStoreSP.edit();
         getHomeFragmentItems(inflater, container);
 
         return placeHolder;
@@ -76,7 +82,15 @@ public class HomeFragment extends Fragment {
         rv_country_list = view.findViewById(R.id.rv_country_list);
 
         if(network_check){
-            getDataFromURL();
+            boolean DBFlag= countryOfflineStoreSP.getBoolean("DBFlag", false);
+            Log.e("DBFlag", String.valueOf(DBFlag));
+//            getDataFromURL();
+            if(DBFlag){
+                getAllCountryNamesAndFlags();
+            }
+            else{
+                getDataFromURL();
+            }
         }
         else{
             home_details_loading_layout.setVisibility(View.GONE);
@@ -170,6 +184,7 @@ public class HomeFragment extends Fragment {
             @Override
             protected void onPostExecute(List<Note> tasks) {
                 super.onPostExecute(tasks);
+                countryOfflineStoreSPEditor.putBoolean("DBFlag", true).apply();
                 home_details_loading_layout.setVisibility(View.GONE);
                 home_data_items.setVisibility(View.VISIBLE);
                 Log.e("tasks",tasks.toString());
