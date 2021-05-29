@@ -31,9 +31,6 @@ public class Note implements Parcelable {
     @ColumnInfo(name = "capital")
     private String capital;
 
-    @ColumnInfo(name = "area")
-    private String area;
-
     @ColumnInfo(name = "currencies")
     private String currencies;
 
@@ -80,14 +77,6 @@ public class Note implements Parcelable {
         this.capital = capital;
     }
 
-    public String getArea() {
-        return area;
-    }
-
-    public void setArea(String area) {
-        this.area = area;
-    }
-
     public String getCurrencies() {
         return currencies;
     }
@@ -132,7 +121,6 @@ public class Note implements Parcelable {
         dest.writeString(this.region);
         dest.writeInt(this.population);
         dest.writeString(this.capital);
-        dest.writeString(this.area);
         dest.writeString(this.currencies);
         dest.writeString(this.callingCodes);
     }
@@ -144,7 +132,6 @@ public class Note implements Parcelable {
         this.region = in.readString();
         this.population = in.readInt();
         this.capital = in.readString();
-        this.area = in.readString();
         this.currencies = in.readString();
         this.callingCodes = in.readString();
     }

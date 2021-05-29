@@ -63,7 +63,6 @@ public class HomeFragment extends Fragment {
 
     private void getHomeFragmentItems(LayoutInflater inflater, ViewGroup container) {
         view = inflater.inflate(R.layout.fragment_home, container, false);
-
         placeHolder.addView(view);
 
         home_details_loading_layout = view.findViewById(R.id.home_details_loading_layout);
@@ -100,32 +99,37 @@ public class HomeFragment extends Fragment {
                         response_data_array_json = new JSONArray(response_data);
                         for (int i = 0; i < response_data_array_json.length(); i++) {
                             JSONObject country_array = response_data_array_json.getJSONObject(i);
-                            for(int j = 0; i < country_array.length(); i++){
-                                String name = country_array.getString("name");
-                                String area  = country_array.getString("area");
-                                JSONArray callingCodesList  = (JSONArray) country_array.get("callingCodes");
-                                String callingCodes = (String) callingCodesList.get(0);
-                                String capital = country_array.getString("capital");
+
+                            String name = country_array.getString("name");
+                            JSONArray callingCodesList  = (JSONArray) country_array.get("callingCodes");
+                            String callingCodes = (String) callingCodesList.get(0);
+                            String capital = country_array.getString("capital");
+                            String currencies = "";
+                            try{
                                 JSONArray currenciesList  = (JSONArray) country_array.get("currencies");
                                 JSONObject currenciesListJson = (JSONObject) currenciesList.get(0);
-                                String currencies  = currenciesListJson.getString("symbol");
-                                String flag = country_array.getString("flag");
-
-                                String region = country_array.getString("region");
-                                int population = country_array.getInt("population");
-                                Note newNote = new Note();
-                                newNote.setName(name);
-                                newNote.setArea(area);
-                                newNote.setCallingCodes(callingCodes);
-                                newNote.setCapital(capital);
-                                newNote.setCurrencies(currencies);
-                                newNote.setFlag(flag);
-                                newNote.setRegion(region);
-                                newNote.setPopulation(population);
-                                addItemtoDB(newNote);
-
-
+                                currencies  = currenciesListJson.getString("code");
                             }
+                            catch (Exception e){
+                                currencies = "";
+                            }
+
+                            String flag = country_array.getString("flag");
+
+                            String region = country_array.getString("region");
+                            int population = country_array.getInt("population");
+                            Note newNote = new Note();
+                            newNote.setName(name);
+                            newNote.setCallingCodes(callingCodes);
+                            newNote.setCapital(capital);
+                            newNote.setCurrencies(currencies);
+                            newNote.setFlag(flag);
+                            newNote.setRegion(region);
+                            newNote.setPopulation(population);
+                            addItemtoDB(newNote);
+
+
+
                         }
                         getAllCountryNamesAndFlags();
 
