@@ -3,31 +3,20 @@ package com.paulstevenme.countries;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou;
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYouListener;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.paulstevenme.countries.database.entity.Note;
-import com.paulstevenme.countries.favoriteFragmentFunctions.FavoriteFragment;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -93,7 +82,6 @@ public class CountryDetailsActivity extends AppCompatActivity {
 
         cd_fab_btn.setOnClickListener(view -> {
             String regex = "\\[|\\]";
-//            refreshSecFragment();
             if(favFlag){
 
                 fabBtnColorSet(false);
@@ -109,13 +97,6 @@ public class CountryDetailsActivity extends AppCompatActivity {
         });
 
     }
-
-    private void refreshSecFragment() {
-//        FavoriteFragment fragment = (FavoriteFragment) getFragmentManager().findFragmentByTag("2");
-//
-//        getFragmentManager().beginTransaction().detach(fragment).attach(fragment).commit();
-    }
-
 
     private void fabBtnColorSet(Boolean favFlag) {
         if(favFlag){
