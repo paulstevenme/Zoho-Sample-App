@@ -87,6 +87,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:gravity="center"
+                app:startIconDrawable="@drawable/home_search_ico"
                 android:id="@+id/fh_country_search"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"

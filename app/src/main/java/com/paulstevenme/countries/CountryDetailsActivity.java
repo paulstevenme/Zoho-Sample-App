@@ -85,6 +85,7 @@ public class CountryDetailsActivity extends AppCompatActivity {
             fabBtnColorSet(favFlag);
         }
         else{
+            favFlag=false;
             fabBtnColorSet(favFlag);
         }
 
@@ -93,13 +94,15 @@ public class CountryDetailsActivity extends AppCompatActivity {
             String regex = "\\[|\\]";
             if(favFlag){
 
-                fabBtnColorSet(false);
+                favFlag =false;
+                fabBtnColorSet(favFlag);
                 fav_country_list.remove(country_name);
                 countryOfflineStoreSPEditor.putString("fav_country_list_str", fav_country_list.toString().replaceAll(regex, "")).apply();
             }
             else{
 
-                fabBtnColorSet(true);
+                favFlag=true;
+                fabBtnColorSet(favFlag);
                 fav_country_list.add(country_name);
                 countryOfflineStoreSPEditor.putString("fav_country_list_str", fav_country_list.toString().replaceAll(regex, "")).apply();
             }

@@ -77,7 +77,11 @@ public class HomeActivity extends AppCompatActivity {
             if (buttonView == R.id.m_about) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
                 builder.setTitle("About");
-                builder.setMessage("Countries App is a handy App to Know about all Country Details.");
+                builder.setMessage("★ Know the Details of the Country\n" +
+                        "★ Search the Country Name and Get Instant Results\n" +
+                        "★ Like your Country and make it available in Favorites Tab.\n" +
+                        "★ Give a Try.\n" +
+                        "★ Enjoy.");
                 builder.setPositiveButton("OK", (dialogInterface, i) -> {
 
                 });
