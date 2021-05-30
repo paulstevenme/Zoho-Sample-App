@@ -12,9 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.Countries">
-        <activity android:name=".CountryDetailsActivity"></activity>
+        <activity android:name=".CountryDetailsActivity" />
         <activity android:name=".HomeActivity" />
-        <activity android:name=".MainActivity" />
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

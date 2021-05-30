@@ -4,42 +4,26 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.textfield.TextInputEditText;
 import com.paulstevenme.countries.DatabaseClient;
 import com.paulstevenme.countries.R;
 import com.paulstevenme.countries.database.entity.Note;
-import com.paulstevenme.countries.homeFragmentFunctions.HomeFragment;
 import com.paulstevenme.countries.homeFragmentFunctions.HomeRecyclerAdapter;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class FavoriteFragment extends Fragment {
-    private View view;
-    private ViewGroup placeHolder;
     LinearLayout fav_no_favorites_linear_layout, fav_data_linear_layout;
     RecyclerView fav_rv_country_list;
     public static final String MY_PREFS_NAME = "CountryOfflineStore";
     SharedPreferences countryOfflineStoreSP;
-    SharedPreferences.Editor countryOfflineStoreSPEditor;
     String fav_country_list_str;
     List<String> fav_country_list = new ArrayList();
 
@@ -50,8 +34,8 @@ public class FavoriteFragment extends Fragment {
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_favorite, container, false);
-        placeHolder = (ViewGroup) view;
+        View view = inflater.inflate(R.layout.fragment_favorite, container, false);
+        ViewGroup placeHolder = (ViewGroup) view;
 
         fav_no_favorites_linear_layout = view.findViewById(R.id.fav_no_favorites_linear_layout);
         fav_data_linear_layout = view.findViewById(R.id.fav_data_linear_layout);

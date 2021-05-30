@@ -1,7 +1,5 @@
 package com.paulstevenme.countries;
 
-import org.json.JSONArray;
-
 import java.util.List;
 
 public class APIResponse {

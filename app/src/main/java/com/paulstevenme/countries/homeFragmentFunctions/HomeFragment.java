@@ -1,7 +1,6 @@
 package com.paulstevenme.countries.homeFragmentFunctions;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -18,11 +17,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 import com.paulstevenme.countries.APIClient;
@@ -30,14 +26,11 @@ import com.paulstevenme.countries.APIResponse;
 import com.paulstevenme.countries.DatabaseClient;
 import com.paulstevenme.countries.R;
 import com.paulstevenme.countries.database.entity.Note;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -45,7 +38,6 @@ import retrofit2.Response;
 public class HomeFragment extends Fragment {
 
     private View view;
-    private ViewGroup placeHolder;
     LinearLayout home_details_loading_layout, network_error_layout;
     RelativeLayout home_data_items;
     TextView  network_error_text;
@@ -63,7 +55,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, container, false);
-        placeHolder = (ViewGroup) view;
+        ViewGroup placeHolder = (ViewGroup) view;
 
         home_details_loading_layout = view.findViewById(R.id.home_details_loading_layout);
         network_error_layout = view.findViewById(R.id.network_error);
@@ -73,34 +65,41 @@ public class HomeFragment extends Fragment {
 
         countryOfflineStoreSP = this.getActivity().getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE);
         countryOfflineStoreSPEditor = countryOfflineStoreSP.edit();
-        getHomeFragmentItems(inflater, container);
+        getHomeFragmentItems();
         return placeHolder;
     }
 
-    private void getHomeFragmentItems(LayoutInflater inflater, ViewGroup container) {
+    private void getHomeFragmentItems() {
 
         Boolean network_check = haveNetworkConnection(view);
         network_error_layout = view.findViewById(R.id.network_error);
         btnRetry = view.findViewById(R.id.btn_retry);
         rv_country_list = view.findViewById(R.id.rv_country_list);
 
-        if(network_check){
-            boolean DBFlag= countryOfflineStoreSP.getBoolean("DBFlag", false);
-            Log.e("DBFlag", String.valueOf(DBFlag));
+        startProcess(network_check);
 
-            if(DBFlag){
-                getAllCountryNamesAndFlags();
-            }
-            else{
-                countryOfflineStoreSPEditor.putString("fav_country_list_str", "").apply();
-                getDataFromURL();
-            }
+        btnRetry.setOnClickListener(view -> startProcess(network_check));
+    }
+
+    private void startProcess(Boolean network_check) {
+        boolean DBFlag= countryOfflineStoreSP.getBoolean("DBFlag", false);
+        Log.e("DBFlag", String.valueOf(DBFlag));
+        if(DBFlag){
+            getAllCountryNamesAndFlags();
         }
         else{
-            home_details_loading_layout.setVisibility(View.GONE);
-            network_error_layout.setVisibility(View.VISIBLE);
+            countryOfflineStoreSPEditor.putString("fav_country_list_str", "").apply();
+            if(network_check){
+                getDataFromURL();
+            }
+            else {
+                home_details_loading_layout.setVisibility(View.GONE);
+                network_error_layout.setVisibility(View.VISIBLE);
+            }
+
         }
     }
+
     private void getDataFromURL() {
         Call<List<APIResponse>> call = APIClient.getUserService().getAllCountryDetails();
 
@@ -120,7 +119,7 @@ public class HomeFragment extends Fragment {
                             JSONArray callingCodesList  = (JSONArray) country_array.get("callingCodes");
                             String callingCodes = (String) callingCodesList.get(0);
                             String capital = country_array.getString("capital");
-                            String area = "";
+                            String area;
                             try{
                                 int area_int = country_array.getInt("area");
                                 area = String.valueOf(area_int);
@@ -130,7 +129,7 @@ public class HomeFragment extends Fragment {
                                 area = "";
                             }
 
-                            String currencies = "";
+                            String currencies;
                             try{
                                 JSONArray currenciesList  = (JSONArray) country_array.get("currencies");
                                 JSONObject currenciesListJson = (JSONObject) currenciesList.get(0);

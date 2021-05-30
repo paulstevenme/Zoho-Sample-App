@@ -13,7 +13,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,7 +20,6 @@ import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou;
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYouListener;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.paulstevenme.countries.database.entity.Note;
-
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -97,15 +95,14 @@ public class CountryDetailsActivity extends AppCompatActivity {
                 favFlag =false;
                 fabBtnColorSet(favFlag);
                 fav_country_list.remove(country_name);
-                countryOfflineStoreSPEditor.putString("fav_country_list_str", fav_country_list.toString().replaceAll(regex, "")).apply();
             }
             else{
 
                 favFlag=true;
                 fabBtnColorSet(favFlag);
                 fav_country_list.add(country_name);
-                countryOfflineStoreSPEditor.putString("fav_country_list_str", fav_country_list.toString().replaceAll(regex, "")).apply();
             }
+            countryOfflineStoreSPEditor.putString("fav_country_list_str", fav_country_list.toString().replaceAll(regex, "")).apply();
         });
 
     }
@@ -164,11 +161,7 @@ public class CountryDetailsActivity extends AppCompatActivity {
                 List<String> detailsHeadList  = Arrays.asList("Region","Capital","Population","Area","Currency","Calling Code");
                 ArrayList rv_list = new ArrayList<>();
                 for (int i = 0; i < detailsList.size(); i++) {
-                    final int finalI = i;
                     rv_list.add(new CountryItem(getResources().getIdentifier(picList.get(i), "drawable", getPackageName()), detailsHeadList.get(i), detailsList.get(i)));
-
-
-
                 }
                 CountryRecyclerAdapter mAdapter = new CountryRecyclerAdapter(rv_list);
                 cd_rv.setAdapter(mAdapter);

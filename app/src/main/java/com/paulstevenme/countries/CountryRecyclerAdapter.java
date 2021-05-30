@@ -1,20 +1,12 @@
 package com.paulstevenme.countries;
 
-import android.content.Context;
-import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.List;
 
 public class CountryRecyclerAdapter extends RecyclerView.Adapter<CountryRecyclerAdapter.ViewHolder> {
@@ -46,15 +38,13 @@ public class CountryRecyclerAdapter extends RecyclerView.Adapter<CountryRecycler
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private View mView;
         private TextView title, desc;
         private ImageView image;
         public ViewHolder(View itemView) {
             super(itemView);
-            mView = itemView;
-            image = mView.findViewById(R.id.cd_rv_img);
-            title = mView.findViewById(R.id.cd_rv_tv_name);
-            desc = mView.findViewById(R.id.cd_rv_tv_desc);
+            image = itemView.findViewById(R.id.cd_rv_img);
+            title = itemView.findViewById(R.id.cd_rv_tv_name);
+            desc = itemView.findViewById(R.id.cd_rv_tv_desc);
 
         }
     }
