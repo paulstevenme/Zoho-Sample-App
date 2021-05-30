@@ -147,30 +147,6 @@ public class HomeActivity extends AppCompatActivity {
         favoriteFragment.updateContent();
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu appBarMenu) {
-        getMenuInflater().inflate(R.menu.app_bar_menu, appBarMenu);
-        MenuItem menuItem = appBarMenu.findItem(R.id.home_search);
-
-        SearchView searchView = (SearchView) menuItem.getActionView();
-        searchView.setQueryHint("Search Country here...");
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                return false;
-            }
-        });
-
-
-        return super.onCreateOptionsMenu(appBarMenu);
-    }
-
     private final BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = item -> {
 

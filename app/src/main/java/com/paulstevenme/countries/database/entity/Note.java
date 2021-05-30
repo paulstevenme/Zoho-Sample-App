@@ -28,6 +28,11 @@ public class Note implements Parcelable {
     @ColumnInfo(name = "population")
     private int population;
 
+
+
+    @ColumnInfo(name = "area")
+    private String area;
+
     @ColumnInfo(name = "capital")
     private String capital;
 
@@ -93,6 +98,13 @@ public class Note implements Parcelable {
         this.callingCodes = callingCodes;
     }
 
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
 
 
 

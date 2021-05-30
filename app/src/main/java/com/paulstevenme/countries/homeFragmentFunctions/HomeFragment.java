@@ -120,6 +120,16 @@ public class HomeFragment extends Fragment {
                             JSONArray callingCodesList  = (JSONArray) country_array.get("callingCodes");
                             String callingCodes = (String) callingCodesList.get(0);
                             String capital = country_array.getString("capital");
+                            String area = "";
+                            try{
+                                int area_int = country_array.getInt("area");
+                                area = String.valueOf(area_int);
+
+                            }
+                            catch (Exception e){
+                                area = "";
+                            }
+
                             String currencies = "";
                             try{
                                 JSONArray currenciesList  = (JSONArray) country_array.get("currencies");
@@ -142,10 +152,8 @@ public class HomeFragment extends Fragment {
                             newNote.setFlag(flag);
                             newNote.setRegion(region);
                             newNote.setPopulation(population);
+                            newNote.setArea(area+ " km²");
                             addItemtoDB(newNote);
-
-
-
                         }
                         getAllCountryNamesAndFlags();
 

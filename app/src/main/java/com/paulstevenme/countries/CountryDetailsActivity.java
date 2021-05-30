@@ -3,6 +3,9 @@ package com.paulstevenme.countries;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
@@ -10,6 +13,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,9 +21,12 @@ import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou;
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYouListener;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.paulstevenme.countries.database.entity.Note;
+
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 public class CountryDetailsActivity extends AppCompatActivity {
 
@@ -33,6 +40,7 @@ public class CountryDetailsActivity extends AppCompatActivity {
     String fav_country_list_str;
     List<String> fav_country_list = new ArrayList();
     Boolean favFlag = false;
+    RecyclerView cd_rv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +73,7 @@ public class CountryDetailsActivity extends AppCompatActivity {
         cd_tv_country_name = findViewById(R.id.cd_tv_country_name);
         cd_flag_iv = findViewById(R.id.cd_flag_iv);
         cd_fab_btn = findViewById(R.id.cd_fab_btn);
+        cd_rv = findViewById(R.id.cd_rv);
         cd_tv_country_name.setText(country_name);
 
         country_detail_toolbar.setNavigationOnClickListener(view -> onBackPressed());
@@ -146,6 +155,24 @@ public class CountryDetailsActivity extends AppCompatActivity {
                         })
                         .setPlaceHolder(R.mipmap.ic_launcher, R.mipmap.ic_launcher)
                         .load(Uri.parse(note.getFlag()), cd_flag_iv);
+                List<String>picList = new ArrayList<>(Arrays.asList("cd_ico_reg", "cd_ico_cap","cd_ico_pop","cd_ico_area","cd_ico_cur","cd_ico_cal"));
+                String population_count = NumberFormat.getNumberInstance(Locale.getDefault()).format(note.getPopulation());
+                List<String> detailsList = Arrays.asList(note.getRegion(),note.getCapital(),population_count,note.getArea(),note.getCurrencies(),note.getCallingCodes());
+                List<String> detailsHeadList  = Arrays.asList("Region","Capital","Population","Area","Currency","Calling Code");
+                ArrayList rv_list = new ArrayList<>();
+                for (int i = 0; i < detailsList.size(); i++) {
+                    final int finalI = i;
+                    rv_list.add(new CountryItem(getResources().getIdentifier(picList.get(i), "drawable", getPackageName()), detailsHeadList.get(i), detailsList.get(i)));
+
+
+
+                }
+                CountryRecyclerAdapter mAdapter = new CountryRecyclerAdapter(rv_list);
+                cd_rv.setAdapter(mAdapter);
+                cd_rv.setItemAnimator(new DefaultItemAnimator());
+
+
+
             }
         }
         GetData getData = new GetData();

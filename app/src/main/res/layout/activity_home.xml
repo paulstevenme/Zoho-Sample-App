@@ -29,7 +29,7 @@
                 app:navigationIcon="@drawable/ic_baseline_menu_24"
                 app:title="Countries"
                 app:titleTextColor="@color/white"
-                app:menu="@menu/app_bar_menu"
+
 
                 />
 

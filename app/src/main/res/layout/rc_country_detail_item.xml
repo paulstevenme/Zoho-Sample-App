@@ -28,10 +28,11 @@
                 tools:ignore="MissingConstraints">
 
                 <ImageView
+                    android:layout_gravity="center"
                     android:src="@drawable/icon_app"
-                    android:id="@+id/flag_iv"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:id="@+id/cd_rv_img"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     />
@@ -47,25 +48,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:id="@+id/cd_tv_name"
+                    android:id="@+id/cd_rv_tv_name"
 
                     android:layout_marginTop="1dp"
                     android:layout_marginBottom="1dp"
                     android:textColor="@color/special_bg_color"
                     android:text="India"
-                    android:textSize="@dimen/Xlarge_font_size"/>
+                    android:textSize="@dimen/large_font_size"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:id="@+id/cd_tv_desc"
+                    android:id="@+id/cd_rv_tv_desc"
 
                     android:layout_marginTop="1dp"
-                    android:layout_marginBottom="1dp"
+                    android:layout_marginBottom="10dp"
                     android:textColor="#000000"
                     android:text="India"
-                    android:textSize="@dimen/mid_font_size"/>
+                    android:textSize="@dimen/mid_font_size" />
 
             </LinearLayout>
         </RelativeLayout>
