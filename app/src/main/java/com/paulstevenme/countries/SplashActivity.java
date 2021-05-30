@@ -13,7 +13,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        int SPLASH_DISPLAY_LENGTH = 2000;
+        int SPLASH_DISPLAY_LENGTH = 1000;
         new Handler().postDelayed(() -> {
             /* Create an Intent that will start the Menu-Activity. */
             Intent mainIntent = new Intent(SplashActivity.this,HomeActivity.class);

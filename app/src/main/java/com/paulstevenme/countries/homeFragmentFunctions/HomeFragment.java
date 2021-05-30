@@ -74,7 +74,6 @@ public class HomeFragment extends Fragment {
         countryOfflineStoreSP = this.getActivity().getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE);
         countryOfflineStoreSPEditor = countryOfflineStoreSP.edit();
         getHomeFragmentItems(inflater, container);
-
         return placeHolder;
     }
 
@@ -93,6 +92,7 @@ public class HomeFragment extends Fragment {
                 getAllCountryNamesAndFlags();
             }
             else{
+                countryOfflineStoreSPEditor.putString("fav_country_list_str", "").apply();
                 getDataFromURL();
             }
         }
@@ -100,9 +100,7 @@ public class HomeFragment extends Fragment {
             home_details_loading_layout.setVisibility(View.GONE);
             network_error_layout.setVisibility(View.VISIBLE);
         }
-
     }
-
     private void getDataFromURL() {
         Call<List<APIResponse>> call = APIClient.getUserService().getAllCountryDetails();
 
@@ -189,10 +187,11 @@ public class HomeFragment extends Fragment {
             protected void onPostExecute(List<Note> tasks) {
                 super.onPostExecute(tasks);
                 countryOfflineStoreSPEditor.putBoolean("DBFlag", true).apply();
+
                 home_details_loading_layout.setVisibility(View.GONE);
                 home_data_items.setVisibility(View.VISIBLE);
                 Log.e("tasks",tasks.toString());
-                HomeRecyclerAdapter adapter = new HomeRecyclerAdapter(getActivity(), tasks, HomeFragment.this);
+                HomeRecyclerAdapter adapter = new HomeRecyclerAdapter(getActivity(), tasks);
                 rv_country_list.setAdapter(adapter);
                 fh_country_search_et.addTextChangedListener(new TextWatcher() {
                     @Override

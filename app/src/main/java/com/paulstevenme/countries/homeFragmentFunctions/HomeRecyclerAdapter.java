@@ -34,12 +34,10 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
 
     private Context mCtx;
     private List<Note> notes;
-    private final HomeFragment homeFragment;
-    public HomeRecyclerAdapter(Context mCtx, List<Note> notes, HomeFragment homeFragment) {
+    public HomeRecyclerAdapter(Context mCtx, List<Note> notes) {
         System.out.println("Entered Here PRice");
         this.mCtx = mCtx;
         this.notes = notes;
-        this.homeFragment = homeFragment;
     }
 
     @Override

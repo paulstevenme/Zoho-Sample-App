@@ -8,6 +8,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -27,6 +29,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.paulstevenme.countries.favoriteFragmentFunctions.FavoriteFragment;
 import com.paulstevenme.countries.homeFragmentFunctions.HomeFragment;
 
+import java.util.List;
 import java.util.Objects;
 
 public class HomeActivity extends AppCompatActivity {
@@ -41,6 +44,13 @@ public class HomeActivity extends AppCompatActivity {
     public static final String MY_PREFS_NAME = "CountryOfflineStore";
 
     Boolean DBFlag = false;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.e("Resume","called");
+        refreshSecFragment();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,6 +140,13 @@ public class HomeActivity extends AppCompatActivity {
         fm.beginTransaction().add(R.id.main_container, fragment1, "1").commit();
 
     }
+
+    private void refreshSecFragment() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FavoriteFragment favoriteFragment= (FavoriteFragment) fragmentManager.findFragmentByTag("2");
+        favoriteFragment.updateContent();
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu appBarMenu) {
