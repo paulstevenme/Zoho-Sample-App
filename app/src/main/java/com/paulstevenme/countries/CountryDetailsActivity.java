@@ -52,20 +52,13 @@ public class CountryDetailsActivity extends AppCompatActivity {
         countryOfflineStoreSP = getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE);
         countryOfflineStoreSPEditor = countryOfflineStoreSP.edit();
         fav_country_list_str = countryOfflineStoreSP.getString("fav_country_list_str","");
-        System.out.println("fav_country_list_str "+fav_country_list_str);
-        Log.e("CountryDetailsActivity", "cda");
-        Log.e("fav_country_list_str",fav_country_list_str);
         if(!fav_country_list_str.equals("")){
             fav_country_list = new ArrayList<>(Arrays.asList(fav_country_list_str.split(",")));
 //            Remove Spaces in List of Strings
             for (int i = 0; i < fav_country_list.size(); i++) {
                 fav_country_list.set(i, fav_country_list.get(i).trim());
             }
-            Log.e("fav_country_list", String.valueOf(fav_country_list));
         }
-        Log.e("fav_country_list_check", String.valueOf(fav_country_list.contains(country_name)));
-
-
 
         Toolbar country_detail_toolbar = findViewById(R.id.country_detail_toolbar);
         cd_tv_country_name = findViewById(R.id.cd_tv_country_name);
@@ -145,7 +138,7 @@ public class CountryDetailsActivity extends AppCompatActivity {
                         .withListener(new GlideToVectorYouListener() {
                             @Override
                             public void onLoadFailed() {
-                                Toast.makeText(getApplicationContext(), "Load failed", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getApplicationContext(), "Load failed", Toast.LENGTH_SHORT).show();
                             }
 
                             @Override

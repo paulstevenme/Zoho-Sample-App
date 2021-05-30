@@ -44,16 +44,12 @@ public class FavoriteFragment extends Fragment {
 
         countryOfflineStoreSP = this.getActivity().getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE);
         fav_country_list_str = countryOfflineStoreSP.getString("fav_country_list_str","");
-        System.out.println("fav_country_list_str "+fav_country_list_str);
-        Log.e("CountryDetailsActivity", "cda");
-        Log.e("fav_country_list_str",fav_country_list_str);
         if(!fav_country_list_str.equals("")){
             fav_country_list = new ArrayList<>(Arrays.asList(fav_country_list_str.split(",")));
 //            Remove Spaces in List of Strings
             for (int i = 0; i < fav_country_list.size(); i++) {
                 fav_country_list.set(i, fav_country_list.get(i).trim());
             }
-            Log.e("fav_country_list", String.valueOf(fav_country_list));
             getFavFragmentItems();
         }
         else{
@@ -91,7 +87,6 @@ public class FavoriteFragment extends Fragment {
                 super.onPostExecute(tasks);
                 fav_no_favorites_linear_layout.setVisibility(View.GONE);
                 fav_data_linear_layout.setVisibility(View.VISIBLE);
-                Log.e("tasks",tasks.toString());
                 HomeRecyclerAdapter adapter = new HomeRecyclerAdapter(getActivity(), tasks);
                 fav_rv_country_list.setAdapter(adapter);
 
@@ -110,7 +105,6 @@ public class FavoriteFragment extends Fragment {
             for (int i = 0; i < fav_country_list.size(); i++) {
                 fav_country_list.set(i, fav_country_list.get(i).trim());
             }
-            Log.e("fav_country_list", String.valueOf(fav_country_list));
             getFavFragmentItems();
         }
         else{

@@ -12,8 +12,6 @@ import java.util.List;
 public class CountryRecyclerAdapter extends RecyclerView.Adapter<CountryRecyclerAdapter.ViewHolder> {
     public List<CountryItem> rv_list;
 
-
-
     public CountryRecyclerAdapter(List<CountryItem> list) {
         this.rv_list = list;
     }

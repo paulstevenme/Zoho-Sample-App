@@ -24,7 +24,6 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
     private Context mCtx;
     private List<Note> notes;
     public HomeRecyclerAdapter(Context mCtx, List<Note> notes) {
-        System.out.println("Entered Here PRice");
         this.mCtx = mCtx;
         this.notes = notes;
     }
@@ -46,7 +45,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
                 .withListener(new GlideToVectorYouListener() {
                     @Override
                     public void onLoadFailed() {
-                        Toast.makeText(mCtx.getApplicationContext(), "Load failed", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(mCtx.getApplicationContext(), "Load failed", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override

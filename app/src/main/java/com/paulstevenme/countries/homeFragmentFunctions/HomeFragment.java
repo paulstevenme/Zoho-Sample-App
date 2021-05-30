@@ -83,7 +83,6 @@ public class HomeFragment extends Fragment {
 
     private void startProcess(Boolean network_check) {
         boolean DBFlag= countryOfflineStoreSP.getBoolean("DBFlag", false);
-        Log.e("DBFlag", String.valueOf(DBFlag));
         if(DBFlag){
             getAllCountryNamesAndFlags();
         }
@@ -107,14 +106,12 @@ public class HomeFragment extends Fragment {
             @Override
             public void onResponse(Call<List<APIResponse>> call, Response<List<APIResponse>> response) {
                 if(response.isSuccessful()){
-                    Log.e("success",  new Gson().toJson(response.body()));
                     String response_data = new Gson().toJson(response.body());
                     JSONArray response_data_array_json = null;
                     try {
                         response_data_array_json = new JSONArray(response_data);
                         for (int i = 0; i < response_data_array_json.length(); i++) {
                             JSONObject country_array = response_data_array_json.getJSONObject(i);
-
                             String name = country_array.getString("name");
                             JSONArray callingCodesList  = (JSONArray) country_array.get("callingCodes");
                             String callingCodes = (String) callingCodesList.get(0);
@@ -170,9 +167,9 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<APIResponse>> call, Throwable t) {
-                Log.e("failure", t.getLocalizedMessage());
-//                progressBarVisiblefun(false);
                 Toast.makeText(getActivity().getApplicationContext(), "Server Down!!! Please Retry after some time",Toast.LENGTH_LONG).show();
+                home_details_loading_layout.setVisibility(View.GONE);
+                network_error_layout.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -194,10 +191,8 @@ public class HomeFragment extends Fragment {
             protected void onPostExecute(List<Note> tasks) {
                 super.onPostExecute(tasks);
                 countryOfflineStoreSPEditor.putBoolean("DBFlag", true).apply();
-
                 home_details_loading_layout.setVisibility(View.GONE);
                 home_data_items.setVisibility(View.VISIBLE);
-                Log.e("tasks",tasks.toString());
                 HomeRecyclerAdapter adapter = new HomeRecyclerAdapter(getActivity(), tasks);
                 rv_country_list.setAdapter(adapter);
                 fh_country_search_et.addTextChangedListener(new TextWatcher() {

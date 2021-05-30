@@ -7,7 +7,6 @@ public class APIClient {
     private static Retrofit getRetrofit(){
 
         String api_base_url = "https://restcountries.eu/rest/v2/";
-//        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://172.31.32.29:3000/").addConverterFactory(GsonConverterFactory.create()).build();
         Retrofit retrofit = new Retrofit.Builder().baseUrl(api_base_url).addConverterFactory(GsonConverterFactory.create()).build();
         return retrofit;
     }
