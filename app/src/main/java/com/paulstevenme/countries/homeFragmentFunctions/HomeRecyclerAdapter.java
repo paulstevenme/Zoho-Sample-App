@@ -8,10 +8,13 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,9 +25,11 @@ import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYouListener;
 import com.paulstevenme.countries.CountryDetailsActivity;
 import com.paulstevenme.countries.R;
 import com.paulstevenme.countries.database.entity.Note;
+
+import java.util.ArrayList;
 import java.util.List;
 
-public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapter.NoteViewholder> {
+public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapter.NoteViewholder>  {
 
 
     private Context mCtx;
@@ -74,6 +79,10 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
             }
         });
     }
+    public void updateList(List<Note> list){
+        notes = list;
+        notifyDataSetChanged();
+    }
 
     @Override
     public int getItemCount() {
@@ -98,5 +107,6 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
 
         }
     }
-
 }
+
+

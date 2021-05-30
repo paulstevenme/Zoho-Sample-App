@@ -32,7 +32,6 @@ public class CountryDetailsActivity extends AppCompatActivity {
         Toolbar country_detail_toolbar = findViewById(R.id.country_detail_toolbar);
         cd_tv_country_name = findViewById(R.id.cd_tv_country_name);
         cd_flag_iv = findViewById(R.id.cd_flag_iv);
-
         cd_tv_country_name.setText(country_name);
 
         country_detail_toolbar.setNavigationOnClickListener(view -> onBackPressed());

@@ -7,6 +7,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 import com.paulstevenme.countries.APIClient;
 import com.paulstevenme.countries.APIResponse;
@@ -32,6 +35,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -50,6 +54,7 @@ public class HomeFragment extends Fragment {
     public static final String MY_PREFS_NAME = "CountryOfflineStore";
     SharedPreferences countryOfflineStoreSP;
     SharedPreferences.Editor countryOfflineStoreSPEditor;
+    TextInputEditText fh_country_search_et;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -64,6 +69,7 @@ public class HomeFragment extends Fragment {
         network_error_layout = view.findViewById(R.id.network_error);
         home_data_items = view.findViewById(R.id.home_data_items);
         network_error_text = view.findViewById(R.id.network_error_text);
+        fh_country_search_et = view.findViewById(R.id.fh_country_search_et);
 
         countryOfflineStoreSP = this.getActivity().getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE);
         countryOfflineStoreSPEditor = countryOfflineStoreSP.edit();
@@ -188,6 +194,23 @@ public class HomeFragment extends Fragment {
                 Log.e("tasks",tasks.toString());
                 HomeRecyclerAdapter adapter = new HomeRecyclerAdapter(getActivity(), tasks, HomeFragment.this);
                 rv_country_list.setAdapter(adapter);
+                fh_country_search_et.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count,             int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                        adapter.getFilter().filter(s.toString());
+                        filter(s.toString(),tasks, adapter);
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
 
 
             }
@@ -195,6 +218,20 @@ public class HomeFragment extends Fragment {
 
         GetAllCountryNamesAndFlags gNF = new GetAllCountryNamesAndFlags();
         gNF.execute();
+    }
+
+    private void filter(String text, List<Note> tasks, HomeRecyclerAdapter adapter) {
+        List<Note> temp = new ArrayList();
+
+        for(Note d: tasks){
+            //or use .equal(text) with you want equal match
+            //use .toLowerCase() for better matches
+            if(d.getName().toLowerCase().contains(text.toLowerCase())){
+                temp.add(d);
+            }
+        }
+        //update recyclerview
+        adapter.updateList(temp);
     }
 
     private void addItemtoDB(Note newNote) {
