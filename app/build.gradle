@@ -48,4 +48,6 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:2.3.0"
 
     implementation 'com.github.corouteam:GlideToVectorYou:v2.0.0'
+
+    implementation 'org.jsoup:jsoup:1.13.1'
 }

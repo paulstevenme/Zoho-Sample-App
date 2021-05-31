@@ -14,14 +14,29 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import com.github.twocoffeesoneteam.glidetovectoryou.BuildConfig;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.paulstevenme.countries.favoriteFragmentFunctions.FavoriteFragment;
 import com.paulstevenme.countries.homeFragmentFunctions.HomeFragment;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -35,6 +50,13 @@ public class HomeActivity extends AppCompatActivity {
     public static final String MY_PREFS_NAME = "CountryOfflineStore";
 
     Boolean DBFlag = false;
+    SharedPreferences countryOfflineStoreSP;
+    SharedPreferences.Editor countryOfflineStoreSPEditor;
+
+    String pmAndPresidentURL = "https://en.m.wikipedia.org/wiki/List_of_current_heads_of_state_and_government";
+    ArrayList<String> pmNames = new ArrayList<>();
+    ArrayList<String> presidentNames = new ArrayList<>();
+    ArrayList<String> countryNames = new ArrayList<>();
 
     @Override
     protected void onResume() {
@@ -47,7 +69,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        SharedPreferences countryOfflineStoreSP = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        countryOfflineStoreSP = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         DBFlag = countryOfflineStoreSP.getBoolean("DBFlag",false);
 
 
@@ -133,6 +155,17 @@ public class HomeActivity extends AppCompatActivity {
         fm.beginTransaction().add(R.id.main_container, fragment2, "2").hide(fragment2).commit();
         fm.beginTransaction().add(R.id.main_container, fragment1, "1").commit();
 
+        countryOfflineStoreSPEditor = countryOfflineStoreSP.edit();
+        countryOfflineStoreSPEditor.putString("pmNames","").apply();
+        countryOfflineStoreSPEditor.putString("presidentNames","").apply();
+        countryOfflineStoreSPEditor.putString("countryNames","").apply();
+        try{
+            new PMPresidentDataFetcher().execute();
+        }
+        catch (Exception e){
+            Log.e("Exception", String.valueOf(e));
+        }
+
     }
 
     private void refreshSecFragment() {
@@ -158,4 +191,103 @@ public class HomeActivity extends AppCompatActivity {
         }
         return false;
     };
+
+    class PMPresidentDataFetcher extends AsyncTask<Void, ArrayList,ArrayList> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected ArrayList doInBackground(Void... voids) {
+
+            ArrayList<String> arrayList = new ArrayList<>();
+
+            try {
+
+                Document document;
+                document = Jsoup.connect(pmAndPresidentURL).get();
+                Element table = document.select("table").get(1); //select the first table.
+                Elements rows = table.select("tr");
+                for (int i = 1; i < rows.size(); i++) { //first row is the col names so skip it.
+                    Element row = rows.get(i);
+                    Elements cols;
+                    Elements cols_coun;
+                    cols_coun = row.select("th");
+                    cols = row.select("td");
+
+                    try{
+                        if(cols.get(1).text().contains("Prime Minister")){
+                            String pm_name = cols.get(1).text().replace("Prime Minister – ", "").trim();
+                            pmNames.add(pm_name);
+                        }
+                        else{
+                            pmNames.add("-");
+                        }
+                    }
+                    catch(Exception e){
+                        pmNames.add("-");
+                    }
+                    try{
+                        if(cols.get(0).text().contains("President")){
+                            String president_name = cols.get(0).text().replace("President – ", "").replace("[δ]","").replace("[μ]","").trim();
+                            presidentNames.add(president_name);
+                        }
+                        else{
+                            presidentNames.add("-");
+                        }
+                    }
+                    catch(Exception e){
+                        presidentNames.add("-");
+                    }
+                    countryNames.add(cols_coun.text());
+                }
+
+            }catch (IOException e) {
+                e.printStackTrace();
+            }
+            catch (Exception e){
+                System.out.println("error on fetching");
+                System.out.println(e);
+            }
+            return arrayList;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList arrayList ) {
+            Gson gson = new Gson();
+            String pmNamesSet = gson.toJson(pmNames);
+            String presidentNamesSet = gson.toJson(presidentNames);
+            String countryNamesSet = gson.toJson(countryNames);
+
+            countryOfflineStoreSPEditor.putString("pmNames", pmNamesSet).apply();
+            countryOfflineStoreSPEditor.putString("presidentNames", presidentNamesSet).apply();
+            countryOfflineStoreSPEditor.putString("countryNames", countryNamesSet).apply();
+
+            try{
+                Log.e("index", String.valueOf(countryNames.indexOf("India")));
+                int pmPreindex = countryNames.indexOf("India");
+                Log.e("pm", String.valueOf(pmNames.get(pmPreindex)));
+                Log.e("pre", String.valueOf(presidentNames.get(pmPreindex)));
+            }
+            catch (Exception e){
+                Log.e("Excep", String.valueOf(e));
+            }
+
+//            ArrayList<ModelClass> lstArrayList = gson.fromJson(response, new TypeToken<List<ModelClass>>(){}.getType());
+
+
+
+            super.onPostExecute(arrayList);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        countryOfflineStoreSPEditor.remove("pmNames").apply();
+        countryOfflineStoreSPEditor.remove("presidentNames").apply();
+        countryOfflineStoreSPEditor.remove("countryNames").apply();
+    }
 }

@@ -10,7 +10,6 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_header"
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/special_bg_color"
@@ -23,7 +22,9 @@
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="@drawable/back_icon"
             app:title="Country Details"
+            app:menu="@menu/country_app_bar_menu"
             app:titleTextColor="@color/white" />
+
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -44,35 +45,13 @@
         android:textColor="@color/special_bg_color"
         android:textSize="20sp"
         android:textStyle="bold" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/cd_rv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:scrollbars="vertical"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="2" />
-
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:id="@+id/cd_fab_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center"
-            android:layout_margin="16dp"
-            android:backgroundTint="@color/special_bg_color"
-            android:contentDescription=""
-            android:text="Add to Favorites"
-            android:textColor="@color/white"
-            app:icon="@drawable/bottom_nav_favorite"
-            app:iconTint="@color/white"
-            app:srcCompat="@drawable/favorite_ico" />
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/cd_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:scrollbars="vertical"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2" />
 
 </LinearLayout>
