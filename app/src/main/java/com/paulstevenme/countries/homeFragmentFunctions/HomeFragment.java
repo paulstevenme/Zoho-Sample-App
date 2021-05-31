@@ -1,10 +1,12 @@
 package com.paulstevenme.countries.homeFragmentFunctions;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -39,6 +41,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
 public class HomeFragment extends Fragment {
 
     private View view;
@@ -51,6 +55,7 @@ public class HomeFragment extends Fragment {
     SharedPreferences countryOfflineStoreSP;
     SharedPreferences.Editor countryOfflineStoreSPEditor;
     TextInputEditText fh_country_search_et;
+    Boolean network_check = false;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -82,12 +87,36 @@ public class HomeFragment extends Fragment {
     private void getHomeFragmentItems() throws IOException, InterruptedException {
 
         Helpers helpers = new Helpers(getContext());
-        Boolean network_check = helpers.isInternetConnected();
+        network_check = helpers.isInternetConnected();
 
 
         startProcess(network_check);
 
-        btnRetry.setOnClickListener(view -> startProcess(network_check));
+        btnRetry.setOnClickListener(view -> {
+
+            try {
+                network_check = helpers.isInternetConnected();
+                if(network_check){
+                    clearAppData();
+                    network_error_layout.setVisibility(View.GONE);
+                    home_details_loading_layout.setVisibility(View.VISIBLE);
+                    startProcess(network_check);
+                }
+
+            } catch (InterruptedException | IOException e) {
+                e.printStackTrace();
+            }
+
+        });
+    }
+
+    private void clearAppData() {
+        try {
+            Runtime.getRuntime().exec("pm clear " + getActivity().getApplicationContext().getPackageName());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void startProcess(Boolean network_check) {
