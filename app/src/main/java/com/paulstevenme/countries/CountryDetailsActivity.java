@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.utils.Utils;
+import com.github.twocoffeesoneteam.glidetovectoryou.BuildConfig;
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou;
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYouListener;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -45,13 +47,14 @@ public class CountryDetailsActivity extends AppCompatActivity {
     SharedPreferences countryOfflineStoreSP;
     SharedPreferences.Editor countryOfflineStoreSPEditor;
     public static final String MY_PREFS_NAME = "CountryOfflineStore";
-    String fav_country_list_str, country_names_str,president_names_str, pm_names_str;
+    String fav_country_list_str;
     List<String> fav_country_list = new ArrayList();
     List<String> country_names_list = new ArrayList();
     List<String> president_names_list = new ArrayList();
     List<String> pm_names_list = new ArrayList();
     Boolean favFlag = false;
     RecyclerView cd_rv;
+    String cCountryName,cPresident,cPrimeMinister,cRegion,cCapital, cPopulation, cArea, cCurrency, cCallingCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,21 +134,25 @@ public class CountryDetailsActivity extends AppCompatActivity {
                         .setPlaceHolder(R.mipmap.ic_launcher, R.mipmap.ic_launcher)
                         .load(Uri.parse(note.getFlag()), cd_flag_iv);
 
-                String president_name ="", pm_name ="";
+
                 try{
                     Log.e("index", String.valueOf(country_names_list.indexOf(note.getName())));
                     int pmPreindex = country_names_list.indexOf(note.getName());
-                    president_name = president_names_list.get(pmPreindex);
-                    pm_name = pm_names_list.get(pmPreindex);
+                    cPresident = president_names_list.get(pmPreindex);
+                    cPrimeMinister = pm_names_list.get(pmPreindex);
                 }
                 catch (Exception e){
-                    president_name="-";
-                    pm_name="-";
+                    cPresident="-";
+                    cPrimeMinister="-";
                     Log.e("Excep", String.valueOf(e));
                 }
-                List<String>picList = new ArrayList<>(Arrays.asList("cd_ico_pre","cd_ico_pm","cd_ico_reg", "cd_ico_cap","cd_ico_pop","cd_ico_area","cd_ico_cur","cd_ico_cal"));
+
                 String population_count = NumberFormat.getNumberInstance(Locale.getDefault()).format(note.getPopulation());
-                List<String> detailsList = Arrays.asList(president_name,pm_name,note.getRegion(),note.getCapital(),population_count,note.getArea(),note.getCurrencies(),note.getCallingCodes());
+
+//                Setting Values
+                cCountryName=note.getName();cRegion =note.getRegion(); cCapital= note.getCapital(); cPopulation = population_count; cArea=note.getArea(); cCurrency=note.getCurrencies(); cCallingCode=note.getCallingCodes();
+                List<String>picList = new ArrayList<>(Arrays.asList("cd_ico_pre","cd_ico_pm","cd_ico_reg", "cd_ico_cap","cd_ico_pop","cd_ico_area","cd_ico_cur","cd_ico_cal"));
+                List<String> detailsList = Arrays.asList(cPresident,cPrimeMinister,cRegion,cCapital,cPopulation,cArea,cCurrency,cCallingCode);
                 List<String> detailsHeadList  = Arrays.asList("President","Prime Minister","Region","Capital","Population","Area","Currency","Calling Code");
                 ArrayList rv_list = new ArrayList<>();
                 for (int i = 0; i < detailsList.size(); i++) {
@@ -170,7 +177,7 @@ public class CountryDetailsActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.country_app_bar_menu, menu);
         Menu optionsMenu = menu;
         if(favFlag){
-            menuIconColor(optionsMenu.getItem(0), Color.parseColor("#e1306c"));
+            menuIconColor(optionsMenu.getItem(1), Color.parseColor("#e1306c"));
         }
         return true;
     }
@@ -192,6 +199,28 @@ public class CountryDetailsActivity extends AppCompatActivity {
                 fav_country_list.add(country_name);
             }
             countryOfflineStoreSPEditor.putString("fav_country_list_str", fav_country_list.toString().replaceAll(regex, "")).apply();
+        }
+        else if(id == R.id.share_btn){
+            try {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Countries");
+                String shareMessage= "\nLet me recommend you this best Countries application\n\n";
+                String countryContentToSend = "★ Country Name: "+cCountryName+"\n" +
+                        "★ President: "+cPresident+"\n" +
+                        "★ Prime Minister: "+cPrimeMinister+"\n" +
+                        "★ Region: "+cRegion+"\n" +
+                        "★ Capital: "+cCapital+"\n" +
+                        "★ Population: "+cPopulation+"\n" +
+                        "★ Area: "+cArea+"\n" +
+                        "★ Currency: "+cCurrency+"\n" +
+                        "★ Calling Code: "+cCallingCode+"\n\n\n";
+                shareMessage = countryContentToSend + shareMessage + "https://play.google.com/store/apps/details?id=" + BuildConfig.LIBRARY_PACKAGE_NAME +"\n\n";
+                shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+                startActivity(Intent.createChooser(shareIntent, "choose one"));
+            } catch(Exception e) {
+                //e.toString();
+            }
         }
         return super.onOptionsItemSelected(item);
     }
