@@ -1,4 +1,4 @@
-package com.paulstevenme.countries;
+package com.paulstevenme.countries.countryDetails;
 
 public class CountryItem {
     public int img;

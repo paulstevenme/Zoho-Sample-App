@@ -1,15 +1,13 @@
-package com.paulstevenme.countries;
+package com.paulstevenme.countries.countryDetails;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -19,25 +17,22 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.airbnb.lottie.utils.Utils;
 import com.github.twocoffeesoneteam.glidetovectoryou.BuildConfig;
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou;
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYouListener;
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.paulstevenme.countries.DatabaseClient;
+import com.paulstevenme.countries.R;
 import com.paulstevenme.countries.database.entity.Note;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 public class CountryDetailsActivity extends AppCompatActivity {
 
@@ -66,6 +61,7 @@ public class CountryDetailsActivity extends AppCompatActivity {
         countryOfflineStoreSP = getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE);
         countryOfflineStoreSPEditor = countryOfflineStoreSP.edit();
         fav_country_list_str = countryOfflineStoreSP.getString("fav_country_list_str","");
+
         Gson gson = new Gson();
         String set1 = countryOfflineStoreSP.getString("countryNames", null);
         country_names_list =gson.fromJson(set1, new TypeToken<List<String>>(){}.getType());
@@ -81,9 +77,6 @@ public class CountryDetailsActivity extends AppCompatActivity {
                 fav_country_list.set(i, fav_country_list.get(i).trim());
             }
         }
-
-
-
 
         Toolbar country_detail_toolbar = findViewById(R.id.country_detail_toolbar);
         setSupportActionBar(country_detail_toolbar);
@@ -136,7 +129,6 @@ public class CountryDetailsActivity extends AppCompatActivity {
 
 
                 try{
-                    Log.e("index", String.valueOf(country_names_list.indexOf(note.getName())));
                     int pmPreindex = country_names_list.indexOf(note.getName());
                     cPresident = president_names_list.get(pmPreindex);
                     cPrimeMinister = pm_names_list.get(pmPreindex);
@@ -147,6 +139,7 @@ public class CountryDetailsActivity extends AppCompatActivity {
                     Log.e("Excep", String.valueOf(e));
                 }
 
+//                For Commas in Population
                 String population_count = NumberFormat.getNumberInstance(Locale.getDefault()).format(note.getPopulation());
 
 //                Setting Values

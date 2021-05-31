@@ -26,9 +26,13 @@ import com.paulstevenme.countries.APIResponse;
 import com.paulstevenme.countries.DatabaseClient;
 import com.paulstevenme.countries.R;
 import com.paulstevenme.countries.database.entity.Note;
+import com.paulstevenme.countries.utils.Helpers;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import retrofit2.Call;
@@ -62,19 +66,24 @@ public class HomeFragment extends Fragment {
         home_data_items = view.findViewById(R.id.home_data_items);
         network_error_text = view.findViewById(R.id.network_error_text);
         fh_country_search_et = view.findViewById(R.id.fh_country_search_et);
+        btnRetry = view.findViewById(R.id.btn_retry);
+        rv_country_list = view.findViewById(R.id.rv_country_list);
 
         countryOfflineStoreSP = this.getActivity().getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE);
         countryOfflineStoreSPEditor = countryOfflineStoreSP.edit();
-        getHomeFragmentItems();
+        try {
+            getHomeFragmentItems();
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
         return placeHolder;
     }
 
-    private void getHomeFragmentItems() {
+    private void getHomeFragmentItems() throws IOException, InterruptedException {
 
-        Boolean network_check = haveNetworkConnection(view);
-        network_error_layout = view.findViewById(R.id.network_error);
-        btnRetry = view.findViewById(R.id.btn_retry);
-        rv_country_list = view.findViewById(R.id.rv_country_list);
+        Helpers helpers = new Helpers(getContext());
+        Boolean network_check = helpers.isInternetConnected();
+
 
         startProcess(network_check);
 
@@ -256,22 +265,5 @@ public class HomeFragment extends Fragment {
         }
         AddTask dt = new AddTask();
         dt.execute();
-    }
-
-    private Boolean haveNetworkConnection(View v) {
-        boolean haveConnectedWifi = false;
-        boolean haveConnectedMobile = false;
-
-        ConnectivityManager cm = (ConnectivityManager) v.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
-        for (NetworkInfo ni : netInfo) {
-            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
-                if (ni.isConnected())
-                    haveConnectedWifi = true;
-            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
-                if (ni.isConnected())
-                    haveConnectedMobile = true;
-        }
-        return haveConnectedWifi || haveConnectedMobile;
     }
 }

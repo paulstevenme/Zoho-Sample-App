@@ -1,4 +1,4 @@
-package com.paulstevenme.countries;
+package com.paulstevenme.countries.countryDetails;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +7,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.paulstevenme.countries.R;
+
 import java.util.List;
 
 public class CountryRecyclerAdapter extends RecyclerView.Adapter<CountryRecyclerAdapter.ViewHolder> {

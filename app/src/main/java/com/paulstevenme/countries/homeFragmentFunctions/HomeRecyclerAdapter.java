@@ -8,12 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou;
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYouListener;
-import com.paulstevenme.countries.CountryDetailsActivity;
+import com.paulstevenme.countries.countryDetails.CountryDetailsActivity;
 import com.paulstevenme.countries.R;
 import com.paulstevenme.countries.database.entity.Note;
 import java.util.List;

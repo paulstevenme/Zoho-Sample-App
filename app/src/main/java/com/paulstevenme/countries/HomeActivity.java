@@ -22,21 +22,17 @@ import com.github.twocoffeesoneteam.glidetovectoryou.BuildConfig;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.paulstevenme.countries.favoriteFragmentFunctions.FavoriteFragment;
 import com.paulstevenme.countries.homeFragmentFunctions.HomeFragment;
-
+import com.paulstevenme.countries.utils.Helpers;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
-import java.util.Set;
+
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -68,21 +64,22 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
+//        Initializing Shared Preferences
         countryOfflineStoreSP = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         DBFlag = countryOfflineStoreSP.getBoolean("DBFlag",false);
+        countryOfflineStoreSPEditor = countryOfflineStoreSP.edit();
 
 
         sideDrawerLayout  = findViewById(R.id.sideDrawerLayout);
         home_toolbar = findViewById(R.id.home_toolbar);
         navigationView = findViewById(R.id.navigationView);
-
+//        For Drawer
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,sideDrawerLayout,home_toolbar, R.string.navigation_open,R.string.navigation_close);
         toggle.getDrawerArrowDrawable().setColor(Color.WHITE);
         sideDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-
+//        Drawer Menu Item Click Functions
         navigationView.setNavigationItemSelectedListener(item -> {
             final int buttonView = item.getItemId();
             // Handle navigation view item clicks here.
@@ -149,22 +146,37 @@ public class HomeActivity extends AppCompatActivity {
             sideDrawerLayout.closeDrawer(GravityCompat.START);
             return true;
         });
+
+//        Bottom Navigation Bar
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         fm.beginTransaction().add(R.id.main_container, fragment2, "2").hide(fragment2).commit();
         fm.beginTransaction().add(R.id.main_container, fragment1, "1").commit();
 
-        countryOfflineStoreSPEditor = countryOfflineStoreSP.edit();
-        countryOfflineStoreSPEditor.putString("pmNames","").apply();
-        countryOfflineStoreSPEditor.putString("presidentNames","").apply();
-        countryOfflineStoreSPEditor.putString("countryNames","").apply();
-        try{
-            new PMPresidentDataFetcher().execute();
+        Helpers helpers = new Helpers(this);
+        try {
+
+            Boolean internet_check = helpers.isInternetConnected();
+            if(internet_check){
+
+                try{
+                    countryOfflineStoreSPEditor.putString("pmNames","").apply();
+                    countryOfflineStoreSPEditor.putString("presidentNames","").apply();
+                    countryOfflineStoreSPEditor.putString("countryNames","").apply();
+                    new PMPresidentDataFetcher().execute();
+                }
+                catch (Exception e){
+                    Log.e("Exception", String.valueOf(e));
+                }
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        catch (Exception e){
-            Log.e("Exception", String.valueOf(e));
-        }
+
+
 
     }
 
@@ -264,21 +276,6 @@ public class HomeActivity extends AppCompatActivity {
             countryOfflineStoreSPEditor.putString("pmNames", pmNamesSet).apply();
             countryOfflineStoreSPEditor.putString("presidentNames", presidentNamesSet).apply();
             countryOfflineStoreSPEditor.putString("countryNames", countryNamesSet).apply();
-
-            try{
-                Log.e("index", String.valueOf(countryNames.indexOf("India")));
-                int pmPreindex = countryNames.indexOf("India");
-                Log.e("pm", String.valueOf(pmNames.get(pmPreindex)));
-                Log.e("pre", String.valueOf(presidentNames.get(pmPreindex)));
-            }
-            catch (Exception e){
-                Log.e("Excep", String.valueOf(e));
-            }
-
-//            ArrayList<ModelClass> lstArrayList = gson.fromJson(response, new TypeToken<List<ModelClass>>(){}.getType());
-
-
-
             super.onPostExecute(arrayList);
         }
     }
@@ -286,8 +283,5 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        countryOfflineStoreSPEditor.remove("pmNames").apply();
-        countryOfflineStoreSPEditor.remove("presidentNames").apply();
-        countryOfflineStoreSPEditor.remove("countryNames").apply();
     }
 }

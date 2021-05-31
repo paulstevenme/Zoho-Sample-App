@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/bg_color"
     android:orientation="vertical"
-    tools:context=".CountryDetailsActivity">
+    tools:context=".countryDetails.CountryDetailsActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_header"
