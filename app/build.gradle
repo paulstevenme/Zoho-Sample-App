@@ -3,20 +3,6 @@ plugins {
 }
 
 android {
-    signingConfigs {
-        debug {
-            storeFile file('J:\\Android_Studio_Projects\\Countries App Project\\key\\countries_app_key.jks')
-            storePassword 'Prince@18'
-            keyPassword 'Prince@18'
-            keyAlias 'key0'
-        }
-        release_signin_config {
-            storeFile file('J:\\Android_Studio_Projects\\Countries App Project\\key\\countries_app_key.jks')
-            storePassword 'Prince@18'
-            keyAlias 'key0'
-            keyPassword 'Prince@18'
-        }
-    }
     compileSdkVersion 30
 
     defaultConfig {
