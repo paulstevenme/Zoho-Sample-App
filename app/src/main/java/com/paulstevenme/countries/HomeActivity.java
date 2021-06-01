@@ -18,7 +18,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
-import com.github.twocoffeesoneteam.glidetovectoryou.BuildConfig;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
@@ -109,7 +108,7 @@ public class HomeActivity extends AppCompatActivity {
                     shareIntent.setType("text/plain");
                     shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Countries");
                     String shareMessage= "\nLet me recommend you this best Countries application\n\n";
-                    shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=" + BuildConfig.LIBRARY_PACKAGE_NAME +"\n\n";
+                    shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID +"\n\n";
                     shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
                     startActivity(Intent.createChooser(shareIntent, "choose one"));
                 } catch(Exception e) {

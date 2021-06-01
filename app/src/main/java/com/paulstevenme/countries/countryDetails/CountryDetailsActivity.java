@@ -19,12 +19,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.github.twocoffeesoneteam.glidetovectoryou.BuildConfig;
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou;
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYouListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.paulstevenme.countries.BuildConfig;
 import com.paulstevenme.countries.DatabaseClient;
 import com.paulstevenme.countries.R;
 import com.paulstevenme.countries.database.entity.Note;
@@ -210,7 +209,7 @@ public class CountryDetailsActivity extends AppCompatActivity {
                         "★ Calling Code: "+cCallingCode+"\n"+
                         "★ Languages: "+cLanguages+"\n"+
                         "★ Top Level Domain: "+cTopLevelDomain+"\n\n\n";
-                shareMessage = countryContentToSend + shareMessage + "https://play.google.com/store/apps/details?id=" + BuildConfig.LIBRARY_PACKAGE_NAME +"\n\n";
+                shareMessage = countryContentToSend + shareMessage + "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID +"\n\n";
                 shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
                 startActivity(Intent.createChooser(shareIntent, "choose one"));
             } catch(Exception e) {

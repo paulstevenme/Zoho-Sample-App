@@ -71,7 +71,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
     public int getItemCount() {
         return notes.size();
     }
-    class NoteViewholder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class NoteViewholder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView flag_iv;
         TextView country_name;

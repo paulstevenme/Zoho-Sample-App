@@ -67,7 +67,7 @@ public class FavoriteFragment extends Fragment {
 
     private void getFavCountryNamesAndFlags() {
 
-        class GetFavCountryNamesAndFlags extends AsyncTask<Void, Void, List<Note>> {
+         class GetFavCountryNamesAndFlags extends AsyncTask<Void, Void, List<Note>> {
             
 
             @Override
