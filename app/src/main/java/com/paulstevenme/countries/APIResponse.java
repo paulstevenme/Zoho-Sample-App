@@ -12,6 +12,25 @@ public class APIResponse {
     private String area;
     private List currencies;
     private List callingCodes;
+    private List languages;
+
+    public List getLanguages() {
+        return languages;
+    }
+
+    public void setLanguages(List languages) {
+        this.languages = languages;
+    }
+
+    public List getTopLevelDomain() {
+        return topLevelDomain;
+    }
+
+    public void setTopLevelDomain(List topLevelDomain) {
+        this.topLevelDomain = topLevelDomain;
+    }
+
+    private List topLevelDomain;
 
 
 

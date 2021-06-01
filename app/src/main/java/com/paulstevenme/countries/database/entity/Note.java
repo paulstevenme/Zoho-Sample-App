@@ -35,6 +35,14 @@ public class Note implements Parcelable {
     @ColumnInfo(name = "currencies")
     private String currencies;
 
+    @ColumnInfo(name = "topLevelDomain")
+    private String topLevelDomain;
+
+
+
+    @ColumnInfo(name = "languages")
+    private String languages;
+
     @ColumnInfo(name = "callingCodes")
     private String callingCodes;
 
@@ -112,6 +120,22 @@ public class Note implements Parcelable {
         this.uid = uid;
     }
 
+    public String getTopLevelDomain() {
+        return topLevelDomain;
+    }
+
+    public void setTopLevelDomain(String topLevelDomain) {
+        this.topLevelDomain = topLevelDomain;
+    }
+
+    public String getLanguages() {
+        return languages;
+    }
+
+    public void setLanguages(String languages) {
+        this.languages = languages;
+    }
+
 
     public Note() {
     }
@@ -131,6 +155,8 @@ public class Note implements Parcelable {
         dest.writeString(this.capital);
         dest.writeString(this.currencies);
         dest.writeString(this.callingCodes);
+        dest.writeString(this.topLevelDomain);
+        dest.writeString(this.languages);
     }
 
     protected Note(Parcel in) {
@@ -142,6 +168,8 @@ public class Note implements Parcelable {
         this.capital = in.readString();
         this.currencies = in.readString();
         this.callingCodes = in.readString();
+        this.topLevelDomain=in.readString();
+        this.languages=in.readString();
     }
 
     public static final Creator<Note> CREATOR = new Creator<Note>() {

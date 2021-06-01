@@ -49,7 +49,7 @@ public class CountryDetailsActivity extends AppCompatActivity {
     List<String> pm_names_list = new ArrayList();
     Boolean favFlag = false;
     RecyclerView cd_rv;
-    String cCountryName,cPresident,cPrimeMinister,cRegion,cCapital, cPopulation, cArea, cCurrency, cCallingCode;
+    String cCountryName,cPresident,cPrimeMinister,cRegion,cCapital, cPopulation, cArea, cCurrency, cCallingCode, cLanguages, cTopLevelDomain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,10 +143,10 @@ public class CountryDetailsActivity extends AppCompatActivity {
                 String population_count = NumberFormat.getNumberInstance(Locale.getDefault()).format(note.getPopulation());
 
 //                Setting Values
-                cCountryName=note.getName();cRegion =note.getRegion(); cCapital= note.getCapital(); cPopulation = population_count; cArea=note.getArea(); cCurrency=note.getCurrencies(); cCallingCode=note.getCallingCodes();
-                List<String>picList = new ArrayList<>(Arrays.asList("cd_ico_pre","cd_ico_pm","cd_ico_reg", "cd_ico_cap","cd_ico_pop","cd_ico_area","cd_ico_cur","cd_ico_cal"));
-                List<String> detailsList = Arrays.asList(cPresident,cPrimeMinister,cRegion,cCapital,cPopulation,cArea,cCurrency,cCallingCode);
-                List<String> detailsHeadList  = Arrays.asList("President","Prime Minister","Region","Capital","Population","Area","Currency","Calling Code");
+                cCountryName=note.getName();cRegion =note.getRegion(); cCapital= note.getCapital(); cPopulation = population_count; cArea=note.getArea(); cCurrency=note.getCurrencies(); cCallingCode=note.getCallingCodes(); cLanguages=note.getLanguages(); cTopLevelDomain=note.getTopLevelDomain();
+                List<String>picList = new ArrayList<>(Arrays.asList("cd_ico_pre","cd_ico_pm","cd_ico_reg", "cd_ico_cap","cd_ico_pop","cd_ico_area","cd_ico_cur","cd_ico_cal","cd_ico_lan","cd_ico_tld"));
+                List<String> detailsList = Arrays.asList(cPresident,cPrimeMinister,cRegion,cCapital,cPopulation,cArea,cCurrency,cCallingCode, cLanguages,cTopLevelDomain);
+                List<String> detailsHeadList  = Arrays.asList("President","Prime Minister","Region","Capital","Population","Area","Currency","Calling Code","Languages","Top Level Domain");
                 ArrayList rv_list = new ArrayList<>();
                 for (int i = 0; i < detailsList.size(); i++) {
                     rv_list.add(new CountryItem(getResources().getIdentifier(picList.get(i), "drawable", getPackageName()), detailsHeadList.get(i), detailsList.get(i)));
@@ -207,7 +207,9 @@ public class CountryDetailsActivity extends AppCompatActivity {
                         "★ Population: "+cPopulation+"\n" +
                         "★ Area: "+cArea+"\n" +
                         "★ Currency: "+cCurrency+"\n" +
-                        "★ Calling Code: "+cCallingCode+"\n\n\n";
+                        "★ Calling Code: "+cCallingCode+"\n"+
+                        "★ Languages: "+cLanguages+"\n"+
+                        "★ Top Level Domain: "+cTopLevelDomain+"\n\n\n";
                 shareMessage = countryContentToSend + shareMessage + "https://play.google.com/store/apps/details?id=" + BuildConfig.LIBRARY_PACKAGE_NAME +"\n\n";
                 shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
                 startActivity(Intent.createChooser(shareIntent, "choose one"));

@@ -161,7 +161,7 @@ public class HomeFragment extends Fragment {
 
                             }
                             catch (Exception e){
-                                area = "";
+                                area = "-";
                             }
 
                             String currencies;
@@ -171,13 +171,37 @@ public class HomeFragment extends Fragment {
                                 currencies  = currenciesListJson.getString("code");
                             }
                             catch (Exception e){
-                                currencies = "";
+                                currencies = "-";
                             }
 
                             String flag = country_array.getString("flag");
 
                             String region = country_array.getString("region");
                             int population = country_array.getInt("population");
+
+                            JSONArray topLevelDomainList  = (JSONArray) country_array.get("topLevelDomain");
+                            String topLevelDomain = (String) topLevelDomainList.get(0);
+
+                            String languages = "";
+                            try{
+                                JSONArray languagesList  = (JSONArray) country_array.get("languages");
+
+                                for(int j=0;j<languagesList.length();j++){
+                                    JSONObject languagesListJson = (JSONObject) languagesList.get(j);
+                                    if(j>0){
+                                        languages = languages +" , "+ languagesListJson.getString("name");
+                                    }
+                                    else{
+                                        languages = languagesListJson.getString("name");
+                                    }
+
+                                }
+
+                            }
+                            catch (Exception e){
+                                languages = "-";
+                            }
+
                             Note newNote = new Note();
                             newNote.setName(name);
                             newNote.setCallingCodes(callingCodes);
@@ -187,6 +211,8 @@ public class HomeFragment extends Fragment {
                             newNote.setRegion(region);
                             newNote.setPopulation(population);
                             newNote.setArea(area+ " km²");
+                            newNote.setTopLevelDomain(topLevelDomain);
+                            newNote.setLanguages(languages);
                             addItemtoDB(newNote);
                         }
                         getAllCountryNamesAndFlags();
